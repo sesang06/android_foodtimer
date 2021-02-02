@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <font
+        android:font="@font/nexon_gothic"
+        android:fontStyle="normal" />
+
+
+    <font
+        android:font="@font/nexon_gothic_medium"
+        android:fontStyle="normal" />
+
+
+    <font
+        android:font="@font/nexon_gothic_light"
+        android:fontStyle="normal" />
+
+
+    <font
+        android:font="@font/nexon_gothic_medium"
+        android:fontStyle="normal" />
+
+
+</font-family>
