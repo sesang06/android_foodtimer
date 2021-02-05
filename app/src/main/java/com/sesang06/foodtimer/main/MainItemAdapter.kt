@@ -11,6 +11,8 @@ import com.sesang06.foodtimer.R
 class MainItemAdapter(private val context: Context, private val items: List<MainItem>) :
     RecyclerView.Adapter<MainItemAdapter.MainItemViewHolder>() {
 
+    private var listener: ItemClickListener? = null
+
     class MainItemViewHolder(view: View) : RecyclerView.ViewHolder(
        view
     ) {
@@ -36,8 +38,20 @@ class MainItemAdapter(private val context: Context, private val items: List<Main
             with(holder) {
                 titleTextView.text = item.title
                 timeTextView.text = "${item.minutes}:${item.seconds}"
+                itemView.setOnClickListener { listener?.onItemClick(item) }
             }
         }
+    }
+
+
+
+    fun setItemClickListener(listener: ItemClickListener?) {
+        this.listener = listener
+    }
+
+    interface ItemClickListener {
+
+        fun onItemClick(item: MainItem)
     }
 
 }
