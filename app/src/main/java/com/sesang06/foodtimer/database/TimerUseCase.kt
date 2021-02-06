@@ -44,4 +44,12 @@ class TimerUseCase(
             timerDataSource.insertTimer(it)
         }
     }
+
+    fun loadDefaultDataIfNeeded() {
+        if (appInstalledRepository.shouldInitData) {
+            createDefaultData()
+            appInstalledRepository.finishUpdate()
+        }
+    }
+
 }

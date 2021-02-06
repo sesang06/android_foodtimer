@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.sesang06.foodtimer.R
 
-class MainItemAdapter(private val context: Context, private val items: List<MainItem>) :
+class MainItemAdapter(private val context: Context, private var items: List<MainItem>) :
     RecyclerView.Adapter<MainItemAdapter.MainItemViewHolder>() {
 
     private var listener: ItemClickListener? = null
@@ -26,6 +26,10 @@ class MainItemAdapter(private val context: Context, private val items: List<Main
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_main, parent, false)
         return MainItemViewHolder(view)
+    }
+
+    fun setItems(list: List<MainItem>) {
+        this.items = list
     }
 
     override fun getItemCount(): Int {
