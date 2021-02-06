@@ -18,7 +18,7 @@ class TimerRoomDaoTest {
         clearAllTables()
     }
 
-    
+
 
 
 
@@ -77,10 +77,14 @@ class TimerRoomDaoTest {
 
         val data = db.timerDao().loadById(id)
 
-        assert(data.uid == id)
-        assert(data.title == title)
-        assert(data.minutes == minutes)
-        assert(data.seconds == seconds)
+        assert(data != null)
+        data?.let {
+
+            assert(it.uid == id)
+            assert(it.title == title)
+            assert(it.minutes == minutes)
+            assert(it.seconds == seconds)
+        }
 
     }
 
@@ -109,6 +113,9 @@ class TimerRoomDaoTest {
 
         val data = db.timerDao().loadById(id)
 
+        assert(data != null)
+        if (data == null) return
+
         assert(data.uid == id)
         assert(data.title == title)
         assert(data.minutes == minutes)
@@ -122,6 +129,8 @@ class TimerRoomDaoTest {
 
         val refeshed = db.timerDao().loadById(id)
 
+        assert(refeshed != null)
+        if (refeshed == null) return
         assert(refeshed.uid == id)
         assert(refeshed.title == title)
         assert(refeshed.description == description)
@@ -131,5 +140,23 @@ class TimerRoomDaoTest {
 
     }
 
+
+    @Test
+    fun nukeTest() {
+
+        for (i in 0..10) {
+            val id = generateTimer()
+        }
+        val datas = db.timerDao().getAll()
+
+        assert(datas.size > 0)
+
+        db.timerDao().nuke()
+        db.timerDao().nuke()
+
+        val results = db.timerDao().getAll()
+        assert(results.size == 0)
+
+    }
 
 }

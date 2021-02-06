@@ -12,3 +12,12 @@ data class Timer(
     @ColumnInfo(name = "minutes") val minutes: Int,
     @ColumnInfo(name = "seconds") val seconds: Int
 )
+
+
+fun Timer.mapToDomain() = TimerEntity(
+    uid.toInt(),
+    title ?: "",
+    description ?: "",
+    minutes,
+    seconds
+)

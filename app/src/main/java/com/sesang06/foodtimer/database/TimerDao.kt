@@ -12,7 +12,7 @@ interface TimerDao {
 
 
     @Query("SELECT * FROM timer WHERE uid = (:id) LIMIT 1")
-    fun loadById(id: Long) : Timer
+    fun loadById(id: Long) : Timer?
 
     @Insert
     fun insertAll(vararg timer: Timer): List<Long>
@@ -25,4 +25,7 @@ interface TimerDao {
 
     @Delete
     fun delete(timer: Timer)
+
+    @Query("DELETE FROM timer")
+    fun nuke()
 }
