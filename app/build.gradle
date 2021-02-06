@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -86,6 +87,22 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+
+    def room_version = "2.2.6"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
+
+    // optional - Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
+
+    annotationProcessor 'com.uber.rib:rib-compiler-test:0.9.2'
+    compile 'com.uber.rib:rib-android:0.9.2'
+    testCompile 'com.uber.rib:rib-test-utils:0.9.2'
 
 
 }
