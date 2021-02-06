@@ -104,5 +104,5 @@ dependencies {
     compile 'com.uber.rib:rib-android:0.9.2'
     testCompile 'com.uber.rib:rib-test-utils:0.9.2'
 
-
+    implementation "androidx.preference:preference-ktx:1.1.1"
 }
