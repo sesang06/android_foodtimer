@@ -59,6 +59,7 @@ class MainActivity : AppCompatActivity(), MainItemAdapter.ItemClickListener {
 
     override fun onItemClick(item: MainItem) {
         val intent = Intent(this, TimerActivity::class.java)
+        intent.putExtra(TimerActivity.ID, item.id)
         startActivity(intent)
     }
 }

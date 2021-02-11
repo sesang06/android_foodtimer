@@ -33,7 +33,7 @@ class TimerViewModelFactory (
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST")
-        return TimerViewModelFactory(id, useCase) as T
+        return TimerViewModel(null, id, useCase) as T
     }
 }
 
@@ -57,6 +57,10 @@ class TimerViewModel(
 
     val runningTimer: MutableLiveData<RunningTimerPresenter> by lazy {
         MutableLiveData<RunningTimerPresenter>()
+    }
+
+    val progress: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>()
     }
 
     val state: MutableLiveData<State> by lazy {
@@ -104,8 +108,6 @@ class TimerViewModel(
         timerDisposable.add(Observable
             .interval(0, 1, TimeUnit.SECONDS)
             .subscribe {
-
-
                 val currentLeftTime = totalSeconds - it.toInt()
 
                 val presenter = RunningTimerPresenter(
@@ -116,6 +118,10 @@ class TimerViewModel(
                 if (currentLeftTime == 0) {
                     state.postValue(State.done)
                     timerDisposable.clear()
+                }
+                timer.value?.let {
+                    val progressValue = process(it, presenter)
+                    progress.postValue(progressValue)
                 }
                 runningTimer.postValue(presenter)
 

@@ -13,7 +13,7 @@ class MainTimerUseCase(
     fun fetchData(): List<MainItem> {
         return timerDataSource.getAllTimer()
             .map {
-                MainItem(it.title, it.minutes, it.seconds)
+                MainItem(it.title, it.minutes, it.seconds, it.id)
             }
     }
 

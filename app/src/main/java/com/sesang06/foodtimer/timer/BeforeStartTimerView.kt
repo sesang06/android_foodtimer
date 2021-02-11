@@ -19,7 +19,7 @@ class BeforeStartTimerView @JvmOverloads constructor(context: Context, attrs: At
 
 
     private val secondsPicker: NumberPicker by lazy {
-        findViewById<NumberPicker>(R.id.np_minutes).apply {
+        findViewById<NumberPicker>(R.id.np_seconds).apply {
             this.minValue = 0
             this.maxValue = 59
         }
@@ -43,13 +43,13 @@ class BeforeStartTimerView @JvmOverloads constructor(context: Context, attrs: At
     }
 
 
-    private fun bind(minutes: Int, seconds: Int) { 
+    fun bind(minutes: Int, seconds: Int) {
         minutesPicker.value = minutes
         secondsPicker.value = seconds
     }
 
 
-    fun setItemChangeListener(listener: ItemChangeListener?) {
+    fun setItemChangeListener(listener: ItemChangeListener) {
         this.listener = listener
     }
 

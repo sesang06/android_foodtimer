@@ -1,13 +1,12 @@
 package com.sesang06.foodtimer.timer
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.sesang06.foodtimer.R
 import com.sesang06.foodtimer.database.AppInstalledRepository
 import com.sesang06.foodtimer.database.TimerDataSource
@@ -62,11 +61,73 @@ class TimerActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(
             this, viewModelFactory)[TimerViewModel::class.java]
 
+        bind()
 
     }
 
 
     private fun bind() {
+
+        viewModel.state.observe(this, Observer { state ->
+            when (state) {
+                TimerViewModel.State.beforeStart -> {
+                    beforeStartTimerView.visibility = View.VISIBLE
+                    startTimerView.visibility = View.GONE
+                    startButton.text = "시작"
+                    startButton.setOnClickListener {
+                        viewModel.startTimer()
+                    }
+                }
+                TimerViewModel.State.running -> {
+                    beforeStartTimerView.visibility = View.GONE
+                    startTimerView.visibility = View.VISIBLE
+                    startButton.text = "정지"
+                    startButton.setOnClickListener {
+                        viewModel.stopTimer()
+                    }
+                }
+                TimerViewModel.State.stop -> {
+                    beforeStartTimerView.visibility = View.GONE
+                    startTimerView.visibility = View.VISIBLE
+                    startButton.text = "재시작"
+                    startButton.setOnClickListener {
+                        viewModel.restartTimer()
+                    }
+                }
+                TimerViewModel.State.done -> {
+                    beforeStartTimerView.visibility = View.GONE
+                    startTimerView.visibility = View.VISIBLE
+                    startButton.text = "재시작"
+                    startButton.setOnClickListener {
+                        viewModel.startTimer()
+                    }
+                }
+            }
+
+        })
+
+        viewModel.timer.observe(this, Observer { timer ->
+            titleTextView.text = timer.title
+            descriptionTextView.text = timer.description
+            beforeStartTimerView.bind(timer.minutes, timer.seconds)
+            beforeStartTimerView.setItemChangeListener( object: BeforeStartTimerView.ItemChangeListener {
+                override fun onTimeChanged(minutes: Int, seconds: Int) {
+                    viewModel.editTimer(minutes, seconds)
+                }
+            })
+        })
+
+
+        viewModel.runningTimer.observe(this, Observer { runningTimer ->
+            startTimerView.bind(runningTimer.minutes, runningTimer.seconds)
+        })
+
+        viewModel.progress.observe(this, Observer {
+            startTimerView.bind(it)
+        })
+
+        viewModel.onCreate()
+
 
     }
 
