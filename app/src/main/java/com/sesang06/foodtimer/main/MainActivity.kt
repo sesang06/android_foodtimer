@@ -1,4 +1,4 @@
-package com.sesang06.foodtimer
+package com.sesang06.foodtimer.main
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,11 +7,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.sesang06.foodtimer.R
 import com.sesang06.foodtimer.database.AppInstalledRepository
 import com.sesang06.foodtimer.database.TimerDataSource
-import com.sesang06.foodtimer.database.TimerUseCase
-import com.sesang06.foodtimer.main.MainItem
-import com.sesang06.foodtimer.main.MainItemAdapter
 import com.sesang06.foodtimer.timer.TimerActivity
 
 class MainActivity : AppCompatActivity(), MainItemAdapter.ItemClickListener {
@@ -20,10 +18,10 @@ class MainActivity : AppCompatActivity(), MainItemAdapter.ItemClickListener {
 
     private lateinit var mainItemAdapter: MainItemAdapter
 
-    private lateinit var timerUseCase: TimerUseCase
+    private lateinit var mainTimerUseCase: MainTimerUseCase
 
     private lateinit var viewModel: MainViewModel
-    
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,10 +29,10 @@ class MainActivity : AppCompatActivity(), MainItemAdapter.ItemClickListener {
 
         val appInstalledRepository = AppInstalledRepository(context = this)
         val timerDataSource = TimerDataSource(context = this)
-        timerUseCase = TimerUseCase(appInstalledRepository, timerDataSource)
+        mainTimerUseCase = MainTimerUseCase(appInstalledRepository, timerDataSource)
 
         val viewModelFactory = MainViewModelFactory(
-            timerUseCase
+                mainTimerUseCase
         )
         viewModel = ViewModelProviders.of(
             this, viewModelFactory)[MainViewModel::class.java]

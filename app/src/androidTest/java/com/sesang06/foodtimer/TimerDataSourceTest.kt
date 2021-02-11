@@ -11,16 +11,16 @@ import org.junit.runner.RunWith
 class TimerDataSourceTest {
 
 
-    companion object {
+    private companion object {
         const val title = "egg"
         const val description = "egg is delicious"
         const val minutes = 10
         const val seconds = 40
     }
 
-    val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
-    val dataSource = TimerDataSource(appContext)
+    private val dataSource = TimerDataSource(appContext)
 
     @Test
     fun insertTimerEntityTest() {
@@ -95,9 +95,10 @@ class TimerDataSourceTest {
 
         val updated = dataSource.getTimer(result.id)
         assert(updated != null)
-        if (updated == null) return
-        assert(updated.minutes == 0)
-        assert(updated.title == title)
+        updated?.let {
+            assert(updated.minutes == 0)
+            assert(updated.title == title)
+        }
     }
 
 

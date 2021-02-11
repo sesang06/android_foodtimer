@@ -12,7 +12,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class TimerRoomDaoTest {
 
-    val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
     private val db = provideDb(appContext).apply {
         clearAllTables()
@@ -22,7 +22,7 @@ class TimerRoomDaoTest {
 
 
 
-    companion object {
+    private companion object {
         const val title = "egg"
         const val description = "egg is delicious"
         const val minutes = 10
