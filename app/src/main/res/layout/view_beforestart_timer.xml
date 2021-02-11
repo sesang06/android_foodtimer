@@ -34,25 +34,44 @@
 
     <NumberPicker
         android:id="@+id/np_minutes"
-        android:layout_width="0dp"
+        android:layout_width="60dp"
         android:layout_height="0dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginBottom="44dp"
+        android:theme="@style/NumberPickerText"
         android:timePickerMode="spinner"
         app:layout_constraintBottom_toBottomOf="@id/v_circle_timer"
-        app:layout_constraintEnd_toStartOf="@+id/np_seconds"
+        app:layout_constraintEnd_toStartOf="@+id/iv_dot_timer"
         app:layout_constraintStart_toStartOf="@+id/v_circle_timer"
         app:layout_constraintTop_toBottomOf="@+id/tv_foodtime_timer" />
+
+    <ImageView
+        android:id="@+id/iv_dot_timer"
+        android:layout_width="6dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="92dp"
+        android:src="@drawable/timer_dot"
+        app:layout_constraintEnd_toStartOf="@+id/np_seconds"
+        app:layout_constraintStart_toEndOf="@+id/np_minutes"
+        app:layout_constraintTop_toBottomOf="@+id/tv_foodtime_timer" />
+
+
     <NumberPicker
         android:id="@+id/np_seconds"
-        android:layout_width="0dp"
+        android:layout_width="60dp"
         android:layout_height="0dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="70dp"
         android:layout_marginBottom="44dp"
+
+        android:theme="@style/NumberPickerText"
         android:timePickerMode="spinner"
         app:layout_constraintBottom_toBottomOf="@id/v_circle_timer"
         app:layout_constraintEnd_toEndOf="@+id/v_circle_timer"
-        app:layout_constraintStart_toEndOf="@+id/np_minutes"
+        app:layout_constraintStart_toEndOf="@+id/iv_dot_timer"
         app:layout_constraintTop_toBottomOf="@+id/tv_foodtime_timer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

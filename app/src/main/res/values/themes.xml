@@ -18,4 +18,13 @@
         <item name="android:timePickerMode">spinner</item>
         <item name="android:textSize">30dp</item>
     </style>
+    <style name="NumberPickerText">
+        <item name="colorControlNormal">#00000000</item>
+        <item name="android:textSize">50dp</item>
+    </style>
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>
