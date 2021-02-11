@@ -5,11 +5,13 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sesang06.foodtimer.R
-import com.sesang06.foodtimer.main.MainItem
-import com.sesang06.foodtimer.main.MainItemAdapter
+import com.sesang06.foodtimer.database.AppInstalledRepository
+import com.sesang06.foodtimer.database.TimerDataSource
+import com.sesang06.foodtimer.main.*
 
 
 class TimerActivity : AppCompatActivity() {
@@ -26,16 +28,46 @@ class TimerActivity : AppCompatActivity() {
         findViewById<Button>(R.id.b_start_timer)
     }
 
-    private val timePicker: TimePicker by lazy {
-        findViewById<TimePicker>(R.id.tp_timer).apply {
-            this.setIs24HourView(false)
-        }
+
+    private val beforeStartTimerView: BeforeStartTimerView by lazy {
+        findViewById<BeforeStartTimerView>(R.id.before_start_timer)
     }
+
+    private val startTimerView: StartTimerView by lazy {
+        findViewById<StartTimerView>(R.id.start_timer)
+    }
+
+    companion object {
+        const val ID = "ID"
+    }
+
+    private lateinit var timerUseCase: TimerUseCase
+
+    private lateinit var viewModel: TimerViewModel
+
+    private var id: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
+        id = intent.extras?.getInt(ID) ?: 0
+
+
+        val timerDataSource = TimerDataSource(context = this)
+
+            timerUseCase = TimerUseCase(id, timerDataSource)
+        val viewModelFactory = TimerViewModelFactory(
+            id, timerUseCase
+        )
+        viewModel = ViewModelProviders.of(
+            this, viewModelFactory)[TimerViewModel::class.java]
+
+
     }
 
+
+    private fun bind() {
+
+    }
 
 }

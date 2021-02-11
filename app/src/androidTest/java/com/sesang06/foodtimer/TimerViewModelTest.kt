@@ -11,6 +11,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.sesang06.foodtimer.database.TimerDataSource
 import com.sesang06.foodtimer.database.TimerEntity
 import com.sesang06.foodtimer.timer.RunningTimerPresenter
+import com.sesang06.foodtimer.timer.TimerPresenter
 import com.sesang06.foodtimer.timer.TimerUseCase
 import com.sesang06.foodtimer.timer.TimerViewModel
 import junit.framework.Assert.assertEquals
@@ -28,10 +29,7 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.test.*
 import org.junit.After
 
 
@@ -82,39 +80,141 @@ class TimerViewModelTest {
 
     @Test
     fun timerTest() {
+        runBlockingTest {
 
+            timerDataSource.deleteAll()
+            val created = timerDataSource.insertTimer(createTimerEntity())
+            val timerUseCase = TimerUseCase(created.id, timerDataSource)
+            timerViewModel = TimerViewModel(testScope, created.id, timerUseCase)
+            timerViewModel.onCreate()
+
+            val t = timerViewModel.timer.getOrAwaitValue()
+            assert(t != null)
+
+
+            timerViewModel.startTimer()
+
+            // Then the new task event is triggered
+            val value = timerViewModel.runningTimer.getOrAwaitValue(5)
+
+            assert(value != null)
+            value?.let {
+
+                assertEquals(it.seconds, 10)
+            }
+            runBlocking<Unit> {
+
+                delay(1000)
+
+            }
+            // Then the new task event is triggered
+            val nextValue = timerViewModel.runningTimer.getOrAwaitValue(5)
+            assert(nextValue != null)
+            nextValue?.let {
+
+                assertEquals(it.seconds, 9)
+            }
+        }
+
+    }
+
+    @Test
+    fun stopTimerTest() {
+        runBlockingTest {
+
+            timerDataSource.deleteAll()
+            val created = timerDataSource.insertTimer(createTimerEntity())
+            val timerUseCase = TimerUseCase(created.id, timerDataSource)
+            timerViewModel = TimerViewModel(testScope, created.id, timerUseCase)
+            timerViewModel.onCreate()
+
+            val t = timerViewModel.timer.getOrAwaitValue()
+            assert(t != null)
+
+
+            timerViewModel.startTimer()
+
+            // Then the new task event is triggered
+            val value = timerViewModel.runningTimer.getOrAwaitValue(5)
+
+            assert(value != null)
+            value?.let {
+
+                assertEquals(it.seconds, 10)
+            }
+            runBlocking<Unit> {
+
+                delay(1000)
+
+            }
+            // Then the new task event is triggered
+            val nextValue = timerViewModel.runningTimer.getOrAwaitValue(5)
+            assert(nextValue != null)
+            nextValue?.let {
+                assertEquals(it.seconds, 9)
+            }
+
+            timerViewModel.stopTimer()
+            val state = timerViewModel.state.getOrAwaitValue()
+            assert(state != null)
+            assert(state == TimerViewModel.State.stop)
+            runBlocking<Unit> {
+                delay(1000)
+            }
+            val stoppedValue = timerViewModel.runningTimer.getOrAwaitValue(5)
+            assert(stoppedValue != null)
+            stoppedValue?.let {
+                assertEquals(it.seconds, 9)
+            }
+
+            timerViewModel.restartTimer()
+            val stoppedState = timerViewModel.state.getOrAwaitValue()
+            assert(stoppedState != null)
+            assert(stoppedState == TimerViewModel.State.running)
+            runBlocking<Unit> {
+                delay(1000)
+            }
+            val restartedValue = timerViewModel.runningTimer.getOrAwaitValue(5)
+            assert(restartedValue != null)
+
+            restartedValue?.let {
+                assertEquals(it.seconds, 8)
+            }
+
+
+        }
+    }
+
+    @Test
+    fun processTest() {
         timerDataSource.deleteAll()
         val created = timerDataSource.insertTimer(createTimerEntity())
         val timerUseCase = TimerUseCase(created.id, timerDataSource)
         timerViewModel = TimerViewModel(testScope, created.id, timerUseCase)
         timerViewModel.onCreate()
 
-        val t = timerViewModel.timer.getOrAwaitValue()
-        assert(t != null)
+
+        val total = TimerPresenter("","", 10, 10)
+        val current = RunningTimerPresenter(10, 10)
+        val process =  timerViewModel.process(total, current)
+        assert(process == 100)
+
+    }
 
 
-        timerViewModel.startTimer()
+    @Test
+    fun processTestTwo() {
+        timerDataSource.deleteAll()
+        val created = timerDataSource.insertTimer(createTimerEntity())
+        val timerUseCase = TimerUseCase(created.id, timerDataSource)
+        timerViewModel = TimerViewModel(testScope, created.id, timerUseCase)
+        timerViewModel.onCreate()
 
-        // Then the new task event is triggered
-        val value = timerViewModel.runningTimer.getOrAwaitValue(5)
 
-        assert(value != null)
-        value?.let {
-
-            assertEquals(it.seconds, 10)
-        }
-        runBlocking<Unit> {
-
-            delay(1000)
-
-        }
-        // Then the new task event is triggered
-        val nextValue = timerViewModel.runningTimer.getOrAwaitValue(5)
-        assert(nextValue != null)
-        nextValue?.let {
-
-            assertEquals(it.seconds, 9)
-        }
+        val total = TimerPresenter("","", 10, 10)
+        val current = RunningTimerPresenter(0, 0)
+        val process =  timerViewModel.process(total, current)
+        assert(process == 0)
 
     }
 }
