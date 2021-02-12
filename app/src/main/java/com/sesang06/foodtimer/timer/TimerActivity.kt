@@ -3,10 +3,13 @@ package com.sesang06.foodtimer.timer
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.sesang06.foodtimer.R
 import com.sesang06.foodtimer.database.AppInstalledRepository
 import com.sesang06.foodtimer.database.TimerDataSource
@@ -27,6 +30,9 @@ class TimerActivity : AppCompatActivity() {
         findViewById<Button>(R.id.b_start_timer)
     }
 
+    private val thumbnailImageView: ImageView by lazy {
+        findViewById<ImageView>(R.id.iv_thumbnail_timer)
+    }
 
     private val beforeStartTimerView: BeforeStartTimerView by lazy {
         findViewById<BeforeStartTimerView>(R.id.before_start_timer)
@@ -75,6 +81,7 @@ class TimerActivity : AppCompatActivity() {
                 TimerViewModel.State.beforeStart -> {
                     beforeStartTimerView.visibility = View.VISIBLE
                     startTimerView.visibility = View.GONE
+                    startButton.setBackgroundResource(R.drawable.bg_main_radius_30dp)
                     startButton.text = "시작"
                     startButton.setOnClickListener {
                         viewModel.startTimer()
@@ -83,6 +90,7 @@ class TimerActivity : AppCompatActivity() {
                 TimerViewModel.State.running -> {
                     beforeStartTimerView.visibility = View.GONE
                     startTimerView.visibility = View.VISIBLE
+                    startButton.setBackgroundResource(R.drawable.bg_alert_radius_30dp)
                     startButton.text = "정지"
                     startButton.setOnClickListener {
                         viewModel.stopTimer()
@@ -91,6 +99,7 @@ class TimerActivity : AppCompatActivity() {
                 TimerViewModel.State.stop -> {
                     beforeStartTimerView.visibility = View.GONE
                     startTimerView.visibility = View.VISIBLE
+                    startButton.setBackgroundResource(R.drawable.bg_main_radius_30dp)
                     startButton.text = "재시작"
                     startButton.setOnClickListener {
                         viewModel.restartTimer()
@@ -99,6 +108,7 @@ class TimerActivity : AppCompatActivity() {
                 TimerViewModel.State.done -> {
                     beforeStartTimerView.visibility = View.GONE
                     startTimerView.visibility = View.VISIBLE
+                    startButton.setBackgroundResource(R.drawable.bg_main_radius_30dp)
                     startButton.text = "재시작"
                     startButton.setOnClickListener {
                         viewModel.startTimer()
@@ -111,10 +121,16 @@ class TimerActivity : AppCompatActivity() {
         viewModel.timer.observe(this, Observer { timer ->
             titleTextView.text = timer.title
             descriptionTextView.text = timer.description
+            Glide
+                    .with(this)
+                    .load(timer.thumbnail)
+                    .centerCrop()
+                    .transform(RoundedCorners(50))
+                    .into(thumbnailImageView)
+                    .clearOnDetach()
             if (!didInit) {
                 didInit = true
                 beforeStartTimerView.bind(timer.minutes, timer.seconds)
-
             }
 
         })

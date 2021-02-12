@@ -4,7 +4,8 @@ data class TimerPresenter(
         val title: String,
         val description: String,
         val minutes: Int,
-        val seconds: Int
+        val seconds: Int,
+        val thumbnail: Int
 )
 
 data class RunningTimerPresenter(

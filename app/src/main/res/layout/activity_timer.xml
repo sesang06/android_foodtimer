@@ -28,8 +28,6 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="24dp"
                 android:background="@drawable/bg_point_pink_radius_24dp"
-                android:paddingTop="34dp"
-                android:paddingBottom="34dp"
                 android:src="@drawable/timer_pot"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
