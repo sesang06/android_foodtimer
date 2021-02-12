@@ -13,7 +13,8 @@ class TimerDataSource(context: Context) {
             entity.title,
             entity.description,
             entity.minutes,
-            entity.seconds
+            entity.seconds,
+                    entity.thumbnail.value
         )
         )
         return TimerEntity(
@@ -21,7 +22,8 @@ class TimerDataSource(context: Context) {
             entity.title,
             entity.description,
             entity.minutes,
-            entity.seconds
+            entity.seconds,
+                entity.thumbnail
         )
     }
 
@@ -55,7 +57,8 @@ class TimerDataSource(context: Context) {
                 entity.title,
                 entity.description,
                 entity.minutes,
-                entity.seconds
+                entity.seconds,
+                    entity.thumbnail.value
             )
         )
     }

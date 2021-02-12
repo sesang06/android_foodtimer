@@ -10,6 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.sesang06.foodtimer.database.TimerDataSource
 import com.sesang06.foodtimer.database.TimerEntity
+import com.sesang06.foodtimer.database.TimerImage
 import com.sesang06.foodtimer.timer.RunningTimerPresenter
 import com.sesang06.foodtimer.timer.TimerPresenter
 import com.sesang06.foodtimer.timer.TimerUseCase
@@ -52,7 +53,7 @@ class TimerViewModelTest {
         const val description = "3분"
         const val minutes = 40
         const val seconds = 10
-
+        val thumbnail = TimerImage.DISH
     }
 
 
@@ -74,7 +75,7 @@ class TimerViewModelTest {
 
     private fun createTimerEntity() = TimerEntity(
         0,
-        title, description, minutes, seconds
+        title, description, minutes, seconds, thumbnail
     )
 
 
@@ -197,7 +198,7 @@ class TimerViewModelTest {
         val total = TimerPresenter("","", 10, 10)
         val current = RunningTimerPresenter(10, 10)
         val process =  timerViewModel.process(total, current)
-        assert(process == 100)
+        assert(process == 0)
 
     }
 
@@ -214,7 +215,7 @@ class TimerViewModelTest {
         val total = TimerPresenter("","", 10, 10)
         val current = RunningTimerPresenter(0, 0)
         val process =  timerViewModel.process(total, current)
-        assert(process == 0)
+        assert(process == 100)
 
     }
 }

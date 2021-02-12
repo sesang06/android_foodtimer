@@ -24,7 +24,8 @@ class TimerUseCase(
                 timer.title,
                 timer.description,
                 minutes,
-                seconds
+                seconds,
+                timer.thumbnail
         ))
         return TimerPresenter(timer.title, timer.description, minutes, seconds)
     }

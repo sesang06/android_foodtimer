@@ -10,7 +10,8 @@ data class Timer(
     @ColumnInfo(name = "title") val title: String?,
     @ColumnInfo(name = "description") val description: String?,
     @ColumnInfo(name = "minutes") val minutes: Int,
-    @ColumnInfo(name = "seconds") val seconds: Int
+    @ColumnInfo(name = "seconds") val seconds: Int,
+    @ColumnInfo(name = "thumbnail") val thumbnail: Int
 )
 
 
@@ -19,5 +20,6 @@ fun Timer.mapToDomain() = TimerEntity(
     title ?: "",
     description ?: "",
     minutes,
-    seconds
+    seconds,
+        TimerImage.valueOf(thumbnail) ?: TimerImage.DISH
 )

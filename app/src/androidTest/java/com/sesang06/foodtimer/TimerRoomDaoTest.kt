@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.sesang06.foodtimer.database.Timer
+import com.sesang06.foodtimer.database.TimerImage
 import com.sesang06.foodtimer.database.provideDb
 import org.junit.Assert
 import org.junit.Test
@@ -27,10 +28,11 @@ class TimerRoomDaoTest {
         const val description = "egg is delicious"
         const val minutes = 10
         const val seconds = 40
+        val thumbnail = TimerImage.TOAST.value
     }
 
     fun generateTimer(): Long {
-        val timer = Timer(0, title, description, minutes, seconds);
+        val timer = Timer(0, title, description, minutes, seconds, thumbnail);
         return db.timerDao().insert(timer)
     }
 
@@ -122,7 +124,7 @@ class TimerRoomDaoTest {
         assert(data.seconds == seconds)
 
 
-        val newTimer = Timer(data.uid, data.title, data.description, data.minutes, 0)
+        val newTimer = Timer(data.uid, data.title, data.description, data.minutes, 0, thumbnail)
 
         db.timerDao().update(newTimer)
 

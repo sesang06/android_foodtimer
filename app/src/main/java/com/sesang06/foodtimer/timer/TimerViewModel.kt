@@ -77,7 +77,7 @@ class TimerViewModel(
     fun process(total: TimerPresenter, current: RunningTimerPresenter): Int {
         val totalSeconds = totalSeconds(total.minutes, total.seconds)
         val currentSeconds = totalSeconds(current.minutes, current.seconds)
-        return currentSeconds * 100 / totalSeconds
+        return 100 - currentSeconds * 100 / totalSeconds
     }
 
     private val timerDisposable = CompositeDisposable()

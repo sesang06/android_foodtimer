@@ -5,6 +5,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.sesang06.foodtimer.database.AppInstalledRepository
 import com.sesang06.foodtimer.database.TimerDataSource
 import com.sesang06.foodtimer.database.TimerEntity
+import com.sesang06.foodtimer.database.TimerImage
 import com.sesang06.foodtimer.main.MainTimerUseCase
 import com.sesang06.foodtimer.timer.TimerUseCase
 import org.junit.Test
@@ -24,12 +25,12 @@ class TimerUseCaseTest {
         const val description = "3분"
         const val minutes = 40
         const val seconds = 10
-
+        val thumbnail = TimerImage.DISH
     }
 
     private fun createTimerEntity() = TimerEntity(
             0,
-            title, description, minutes, seconds
+            title, description, minutes, seconds, thumbnail
     )
     @Test
     fun fetchDataTest() {

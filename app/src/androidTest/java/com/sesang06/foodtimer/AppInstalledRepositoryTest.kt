@@ -17,6 +17,7 @@ class AppInstalledRepositoryTest {
     fun installTest() {
         appInstallRepository.clearToInit()
         assert(appInstallRepository.shouldInitData)
+        appInstallRepository.clearToInit()
     }
 
     @Test

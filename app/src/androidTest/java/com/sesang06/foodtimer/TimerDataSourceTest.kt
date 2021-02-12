@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.sesang06.foodtimer.database.TimerDataSource
 import com.sesang06.foodtimer.database.TimerEntity
+import com.sesang06.foodtimer.database.TimerImage
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -16,6 +17,7 @@ class TimerDataSourceTest {
         const val description = "egg is delicious"
         const val minutes = 10
         const val seconds = 40
+        val thumbnail = TimerImage.TOAST
     }
 
     private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
@@ -24,14 +26,14 @@ class TimerDataSourceTest {
 
     @Test
     fun insertTimerEntityTest() {
-        val timer = TimerEntity(0, title, description, minutes, seconds)
+        val timer = TimerEntity(0, title, description, minutes, seconds, thumbnail)
         val result = dataSource.insertTimer(timer)
         assert(result.id != 0)
     }
 
     @Test
     fun selectTimerEntityTest() {
-        val timer = TimerEntity(0, title, description, minutes, seconds)
+        val timer = TimerEntity(0, title, description, minutes, seconds, thumbnail)
         val result = dataSource.insertTimer(timer)
 
         val queried = dataSource.getTimer(result.id)
@@ -52,7 +54,7 @@ class TimerDataSourceTest {
     fun getAllEntityTest() {
 
         for (i in 0..10) {
-            val timer = TimerEntity(0, title, description, minutes, seconds)
+            val timer = TimerEntity(0, title, description, minutes, seconds, thumbnail)
             dataSource.insertTimer(timer)
         }
         val result = dataSource.getAllTimer()
@@ -62,7 +64,7 @@ class TimerDataSourceTest {
     @Test
     fun deleteAllTest() {
         for (i in 0..10) {
-            val timer = TimerEntity(0, title, description, minutes, seconds)
+            val timer = TimerEntity(0, title, description, minutes, seconds, thumbnail)
             dataSource.insertTimer(timer)
         }
         val result = dataSource.getAllTimer()
@@ -75,7 +77,7 @@ class TimerDataSourceTest {
 
     @Test
     fun deleteTimerEntityTests() {
-        val timer = TimerEntity(0, title, description, minutes, seconds)
+        val timer = TimerEntity(0, title, description, minutes, seconds, thumbnail)
         val result = dataSource.insertTimer(timer)
         assert(result.id != 0)
 
@@ -86,12 +88,12 @@ class TimerDataSourceTest {
 
     @Test
     fun updateTimerEntityTests() {
-        val timer = TimerEntity(0, title, description, minutes, seconds)
+        val timer = TimerEntity(0, title, description, minutes, seconds, thumbnail)
         val result = dataSource.insertTimer(timer)
 
         assert(result.id != 0)
 
-        dataSource.updateTimer(TimerEntity(result.id, title, description, 0, seconds))
+        dataSource.updateTimer(TimerEntity(result.id, title, description, 0, seconds, thumbnail))
 
         val updated = dataSource.getTimer(result.id)
         assert(updated != null)

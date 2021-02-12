@@ -5,6 +5,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.sesang06.foodtimer.database.AppInstalledRepository
 import com.sesang06.foodtimer.database.TimerDataSource
 import com.sesang06.foodtimer.database.TimerEntity
+import com.sesang06.foodtimer.database.TimerImage
 import com.sesang06.foodtimer.main.MainTimerUseCase
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,11 +27,11 @@ class MainTimerUseCaseTest {
         const val description = "3분"
         const val minutes = 40
         const val seconds = 10
-
+        val thumbnail = TimerImage.TOAST
     }
     private fun createTimerEntity() = TimerEntity(
         0,
-        title, description, minutes, seconds
+        title, description, minutes, seconds, thumbnail
     )
 
     @Test
@@ -45,8 +46,7 @@ class MainTimerUseCaseTest {
         assert(data.size == 1)
         val item = data[0]
         assert(item.title == title)
-        assert(item.minutes == minutes)
-        assert(item.seconds == seconds)
+        assert(item.timeText == "40분 10초")
     }
 
     @Test
@@ -57,9 +57,10 @@ class MainTimerUseCaseTest {
         timerUseCase.createDefaultData()
 
         val data = timerUseCase.fetchData()
-        assert(data.size == 3)
-        assert(data[0].title == "계란 반숙")
-        assert(data[1].title == "컵라면")
-        assert(data[2].title == "파스타")
+        assert(data.size == 4)
+        assert(data[0].title == "맛있는 계란 반숙")
+        assert(data[1].title == "꼬들꼬들 컵라면")
+        assert(data[2].title == "파스타 알단테")
+        assert(data[3].title == "바삭바삭 토스트")
     }
 }
