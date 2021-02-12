@@ -11,6 +11,7 @@
         android:id="@+id/tv_foodtime_running_timer"
         android:layout_width="0dp"
         android:layout_height="24dp"
+        android:layout_marginTop="80dp"
         android:fontFamily="@font/nexon_gothic_bold"
         android:gravity="center"
         android:text="조리시간"

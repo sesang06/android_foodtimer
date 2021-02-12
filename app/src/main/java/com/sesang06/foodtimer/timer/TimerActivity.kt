@@ -46,6 +46,8 @@ class TimerActivity : AppCompatActivity() {
 
     private var id: Int = 0
 
+    private var didInit = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
@@ -109,14 +111,18 @@ class TimerActivity : AppCompatActivity() {
         viewModel.timer.observe(this, Observer { timer ->
             titleTextView.text = timer.title
             descriptionTextView.text = timer.description
-            beforeStartTimerView.bind(timer.minutes, timer.seconds)
-            beforeStartTimerView.setItemChangeListener( object: BeforeStartTimerView.ItemChangeListener {
-                override fun onTimeChanged(minutes: Int, seconds: Int) {
-                    viewModel.editTimer(minutes, seconds)
-                }
-            })
-        })
+            if (!didInit) {
+                didInit = true
+                beforeStartTimerView.bind(timer.minutes, timer.seconds)
 
+            }
+
+        })
+        beforeStartTimerView.setItemChangeListener( object: BeforeStartTimerView.ItemChangeListener {
+            override fun onTimeChanged(minutes: Int, seconds: Int) {
+                viewModel.editTimer(minutes, seconds)
+            }
+        })
 
         viewModel.runningTimer.observe(this, Observer { runningTimer ->
             startTimerView.bind(runningTimer.minutes, runningTimer.seconds)

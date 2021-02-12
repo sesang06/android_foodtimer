@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity(), MainItemAdapter.ItemClickListener {
             this, viewModelFactory)[MainViewModel::class.java]
 
 
-        viewModel.onCreate()
         mainItemAdapter = MainItemAdapter(
             this, listOf()
         ).apply {
@@ -54,6 +53,12 @@ class MainActivity : AppCompatActivity(), MainItemAdapter.ItemClickListener {
         mainItemRecylerView.adapter = mainItemAdapter
         mainItemRecylerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         mainItemAdapter.notifyDataSetChanged()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.onCreate()
+
     }
 
 

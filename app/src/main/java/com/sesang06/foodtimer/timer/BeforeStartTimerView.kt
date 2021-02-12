@@ -40,6 +40,8 @@ class BeforeStartTimerView @JvmOverloads constructor(context: Context, attrs: At
             val minutes = minutesPicker.value
             listener?.onTimeChanged(minutes, newValue)
         }
+        minutesPicker.setFormatter { it.toString().padStart(2, '0') }
+        secondsPicker.setFormatter { it.toString().padStart(2, '0') }
     }
 
 
