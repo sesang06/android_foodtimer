@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <View
+        android:id="@+id/v_circle_timer"
+        android:layout_width="290dp"
+        android:layout_height="290dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/bg_point_circle_145dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+
+        android:id="@+id/tv_foodtime_timer"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/nexon_gothic_bold"
+        android:gravity="center"
+        android:text="조리시간"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/v_circle_timer"
+        app:layout_constraintStart_toStartOf="@+id/v_circle_timer"
+        app:layout_constraintTop_toTopOf="@+id/v_circle_timer" />
+
+    <NumberPicker
+        android:id="@+id/np_minutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="44dp"
+        android:theme="@style/NumberPickerText"
+        android:timePickerMode="spinner"
+        android:descendantFocusability="blocksDescendants"
+        app:layout_constraintBottom_toBottomOf="@id/v_circle_timer"
+        app:layout_constraintEnd_toStartOf="@+id/iv_dot_timer"
+        app:layout_constraintStart_toStartOf="@+id/v_circle_timer"
+        app:layout_constraintTop_toBottomOf="@+id/tv_foodtime_timer" />
+
+    <ImageView
+        android:id="@+id/iv_dot_timer"
+        android:layout_width="6dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="92dp"
+        android:src="@drawable/timer_dot"
+        app:layout_constraintEnd_toStartOf="@+id/np_seconds"
+        app:layout_constraintStart_toEndOf="@+id/np_minutes"
+        app:layout_constraintTop_toBottomOf="@+id/tv_foodtime_timer" />
+
+
+    <NumberPicker
+        android:id="@+id/np_seconds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="44dp"
+
+        android:theme="@style/NumberPickerText"
+        android:timePickerMode="spinner"
+        android:descendantFocusability="blocksDescendants"
+        app:layout_constraintBottom_toBottomOf="@id/v_circle_timer"
+        app:layout_constraintEnd_toEndOf="@+id/v_circle_timer"
+        app:layout_constraintStart_toEndOf="@+id/iv_dot_timer"
+        app:layout_constraintTop_toBottomOf="@+id/tv_foodtime_timer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
